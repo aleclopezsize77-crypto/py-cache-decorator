@@ -1,12 +1,12 @@
 from functools import wraps
-from typing import Callable
+from typing import Callable, Any
 
 
 def cache(func: Callable) -> Callable:
     resultados = {}
 
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs) -> Any:
         chave = (args, tuple(sorted(kwargs.items())))
 
         if chave in resultados:
@@ -23,8 +23,12 @@ def cache(func: Callable) -> Callable:
 
 
 @cache
-def long_time_func(a: int, b: int, c: int) -> int:
-    return (a ** b ** c) % (a * c)
+def long_time_func(
+    base: int,
+    expoente: int,
+    potencia: int
+) -> int:
+    return (base ** expoente ** potencia) % (base * potencia)
 
 
 @cache
